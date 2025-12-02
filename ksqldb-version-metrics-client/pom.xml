@@ -20,7 +20,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.confluent.ksql</groupId>
+        <groupId>io.arenadata.ksql</groupId>
         <artifactId>ksqldb-parent</artifactId>
         <version>7.9.1</version>
     </parent>
@@ -30,7 +30,7 @@
     <dependencies>
 
         <dependency>
-            <groupId>io.confluent.ksql</groupId>
+            <groupId>io.arenadata.ksql</groupId>
             <artifactId>ksqldb-common</artifactId>
             <version>${io.confluent.ksql.version}</version>
         </dependency>
@@ -41,7 +41,7 @@
         </dependency>
 
         <dependency>
-            <groupId>io.confluent.ksql</groupId>
+            <groupId>io.arenadata.ksql</groupId>
             <artifactId>ksqldb-engine</artifactId>
             <version>${io.confluent.ksql.version}</version>
         </dependency>
@@ -49,7 +49,7 @@
         <!-- Required for running tests -->
 
         <dependency>
-            <groupId>io.confluent.ksql</groupId>
+            <groupId>io.arenadata.ksql</groupId>
             <artifactId>ksqldb-test-util</artifactId>
             <version>${io.confluent.ksql.version}</version>
             <scope>test</scope>

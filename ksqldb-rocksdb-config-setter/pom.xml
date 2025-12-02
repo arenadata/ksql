@@ -20,7 +20,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.confluent.ksql</groupId>
+        <groupId>io.arenadata.ksql</groupId>
         <artifactId>ksqldb-parent</artifactId>
         <version>7.9.1</version>
     </parent>
@@ -54,8 +54,9 @@
             <artifactId>guava</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.confluent.ksql</groupId>
+            <groupId>io.arenadata.ksql</groupId>
             <artifactId>ksqldb-common</artifactId>
+            <version>${io.confluent.ksql.version}</version>
         </dependency>
     </dependencies>
     <build>

@@ -20,7 +20,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.confluent.ksql</groupId>
+        <groupId>io.arenadata.ksql</groupId>
         <artifactId>ksqldb-parent</artifactId>
         <version>7.9.1</version>
     </parent>
@@ -32,59 +32,59 @@
     <!-- Dependencies are required only to ensure this module is built last. -->
     <dependencies>
        <dependency>
-            <groupId>io.confluent.ksql</groupId>
+            <groupId>io.arenadata.ksql</groupId>
             <artifactId>ksqldb-cli</artifactId>
             <version>${io.confluent.ksql.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.confluent.ksql</groupId>
+            <groupId>io.arenadata.ksql</groupId>
             <artifactId>ksqldb-common</artifactId>
             <version>${io.confluent.ksql.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.confluent.ksql</groupId>
+            <groupId>io.arenadata.ksql</groupId>
             <artifactId>ksqldb-parser</artifactId>
             <version>${io.confluent.ksql.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.confluent.ksql</groupId>
+            <groupId>io.arenadata.ksql</groupId>
             <artifactId>ksqldb-metastore</artifactId>
             <version>${io.confluent.ksql.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.confluent.ksql</groupId>
+            <groupId>io.arenadata.ksql</groupId>
             <artifactId>ksqldb-engine</artifactId>
             <version>${io.confluent.ksql.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.confluent.ksql</groupId>
+            <groupId>io.arenadata.ksql</groupId>
             <artifactId>ksqldb-tools</artifactId>
             <version>${io.confluent.ksql.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.confluent.ksql</groupId>
+            <groupId>io.arenadata.ksql</groupId>
             <artifactId>ksqldb-rest-app</artifactId>
             <version>${io.confluent.ksql.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.confluent.ksql</groupId>
+            <groupId>io.arenadata.ksql</groupId>
             <artifactId>ksqldb-serde</artifactId>
             <version>${io.confluent.ksql.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.confluent.ksql</groupId>
+            <groupId>io.arenadata.ksql</groupId>
             <artifactId>ksqldb-version-metrics-client</artifactId>
             <version>${io.confluent.ksql.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>io.confluent.ksql</groupId>
+            <groupId>io.arenadata.ksql</groupId>
             <artifactId>ksqldb-examples</artifactId>
             <version>${io.confluent.ksql.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>io.confluent.ksql</groupId>
+            <groupId>io.arenadata.ksql</groupId>
             <artifactId>ksqldb-functional-tests</artifactId>
             <version>${io.confluent.ksql.version}</version>
         </dependency>
@@ -119,7 +119,7 @@
       <!-- Required for running tests -->
 
       <dependency>
-        <groupId>io.confluent.ksql</groupId>
+        <groupId>io.arenadata.ksql</groupId>
         <artifactId>ksqldb-test-util</artifactId>
         <version>${io.confluent.ksql.version}</version>
         <scope>test</scope>

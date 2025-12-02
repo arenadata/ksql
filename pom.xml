@@ -32,7 +32,7 @@
         <version>7.9.1</version>
     </parent>
 
-    <groupId>io.confluent.ksql</groupId>
+    <groupId>io.arenadata.ksql</groupId>
     <artifactId>ksqldb-parent</artifactId>
     <packaging>pom</packaging>
     <name>ksqldb-parent</name>
@@ -78,6 +78,15 @@
         <module>ksqldb-testing-tool</module>
     </modules>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/arenadata/ksql</url>
+        </repository>
+    </distributionManagement>
+
+
     <repositories>
         <repository>
             <id>confluent</id>
@@ -86,6 +95,10 @@
         <repository>
             <id>confluent-snapshots</id>
             <url>https://confluent-snapshots.public.confluent.io/</url>
+        </repository>
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/arenadata/*</url>
         </repository>
     </repositories>
 
@@ -100,6 +113,10 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/arenadata/*</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -153,6 +170,7 @@
         <jersey-common>2.39.1</jersey-common>
         <multi-threaded-testing.forkCount>3</multi-threaded-testing.forkCount>
         <kafka.version>${ce.kafka.version}</kafka.version>
+        <spotbugs.maven.plugin.version>4.7.3.6</spotbugs.maven.plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -210,6 +228,12 @@
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>connect-runtime</artifactId>
                 <version>${kafka.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.confluent.observability</groupId>
+                        <artifactId>telemetry-client</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.kafka</groupId>

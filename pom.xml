@@ -36,7 +36,7 @@
     <artifactId>ksqldb-parent</artifactId>
     <packaging>pom</packaging>
     <name>ksqldb-parent</name>
-    <version>8.3.1-167</version>
+    <version>8.3.1.1-4.1.0.0</version>
 
     <licenses>
         <license>
@@ -140,8 +140,8 @@
         <!-- <compile.warnings-flag>-Werror</compile.warnings-flag> -->
         <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
         <apache.io.version>2.11.0</apache.io.version>
-        <io.confluent.ksql.version>8.3.1-167</io.confluent.ksql.version>
-        <io.confluent.schema-registry.version>8.3.1-196</io.confluent.schema-registry.version>
+        <io.confluent.ksql.version>8.3.1.1-4.1.0.0</io.confluent.ksql.version>
+        <io.confluent.schema-registry.version>8.3.1.1-4.1.0.0</io.confluent.schema-registry.version>
         <netty-tcnative-fips-version>0.123.0</netty-tcnative-fips-version>
         <netty-tcnative-version>2.0.78.Final</netty-tcnative-version>
         <!-- We normally get this from common, but Vertx is built against this -->
@@ -154,7 +154,8 @@
         <netty-codec-http2-version>4.1.136.Final</netty-codec-http2-version>
         <jersey-common>3.1.10</jersey-common>
         <multi-threaded-testing.forkCount>3</multi-threaded-testing.forkCount>
-        <kafka.version>${ce.kafka.version}</kafka.version>
+        <kafka.version>4.3.1.1-4.1.0-0</kafka.version>
+        <confluent.kafka.version>${ce.kafka.version}</confluent.kafka.version>
     </properties>
 
     <dependencyManagement>
@@ -545,9 +546,14 @@
             <dependency>
                 <groupId>io.confluent</groupId>
                 <artifactId>ce-sbk_${kafka.scala.version}</artifactId>
-                <version>${kafka.version}</version>
+                <version>${confluent.kafka.version}</version>
                 <scope>compile</scope>
                 <exclusions>
+                    <!-- Kafka artifacts must be supplied by the Arenadata Kafka distribution. -->
+                    <exclusion>
+                        <groupId>org.apache.kafka</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                     <!-- FIPS Compliance: Exclude non-FIPS cryptographic libraries -->
                     <exclusion>
                         <groupId>com.google.crypto.tink</groupId>
@@ -995,8 +1001,13 @@
             <dependency>
                 <groupId>io.confluent</groupId>
                 <artifactId>broker-plugins</artifactId>
-                <version>${kafka.version}</version>
+                <version>${confluent.kafka.version}</version>
                 <exclusions>
+                    <!-- Kafka artifacts must be supplied by the Arenadata Kafka distribution. -->
+                    <exclusion>
+                        <groupId>org.apache.kafka</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                     <exclusion>
                         <groupId>ch.qos.reload4j</groupId>
                         <artifactId>reload4j</artifactId>

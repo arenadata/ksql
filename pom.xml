@@ -78,6 +78,14 @@
         <module>ksqldb-testing-tool</module>
     </modules>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/arenadata/ksql</url>
+        </repository>
+    </distributionManagement>
+
     <repositories>
         <repository>
             <id>confluent</id>
@@ -86,6 +94,10 @@
         <repository>
             <id>confluent-snapshots</id>
             <url>https://confluent-snapshots.public.confluent.io/</url>
+        </repository>
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/arenadata/*</url>
         </repository>
     </repositories>
 
@@ -100,6 +112,10 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/arenadata/*</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -142,7 +158,6 @@
         <apache.io.version>2.11.0</apache.io.version>
         <io.confluent.ksql.version>8.3.1.1-4.1.0.0</io.confluent.ksql.version>
         <io.confluent.schema-registry.version>8.3.1.1-4.1.0.0</io.confluent.schema-registry.version>
-        <netty-tcnative-fips-version>0.123.0</netty-tcnative-fips-version>
         <netty-tcnative-version>2.0.78.Final</netty-tcnative-version>
         <!-- We normally get this from common, but Vertx is built against this -->
         <!-- Note: `netty` depends on `tcnative` and if we bump `netty`
@@ -154,8 +169,7 @@
         <netty-codec-http2-version>4.1.136.Final</netty-codec-http2-version>
         <jersey-common>3.1.10</jersey-common>
         <multi-threaded-testing.forkCount>3</multi-threaded-testing.forkCount>
-        <kafka.version>4.3.1.1-4.1.0-0</kafka.version>
-        <confluent.kafka.version>${ce.kafka.version}</confluent.kafka.version>
+        <kafka.version>${ce.kafka.version}</kafka.version>
     </properties>
 
     <dependencyManagement>
@@ -193,6 +207,18 @@
                 <artifactId>kafka_${kafka.scala.version}</artifactId>
                 <version>${kafka.version}</version>
                 <exclusions>
+                    <exclusion>
+                        <groupId>io.confluent.cloud</groupId>
+                        <artifactId>events-schema</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.confluent.rm</groupId>
+                        <artifactId>rm-core-schemas</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.confluent.rri</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                     <exclusion>
                         <groupId>org.slf4j</groupId>
                         <artifactId>slf4j-log4j12</artifactId>
@@ -306,6 +332,18 @@
                 <artifactId>connect-runtime</artifactId>
                 <version>${kafka.version}</version>
                 <exclusions>
+                    <exclusion>
+                        <groupId>io.confluent.cloud</groupId>
+                        <artifactId>events-schema</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.confluent.observability</groupId>
+                        <artifactId>telemetry-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.confluent.observability</groupId>
+                        <artifactId>telemetry-client</artifactId>
+                    </exclusion>
                     <!-- FIPS Compliance: Exclude non-FIPS cryptographic libraries -->
                     <exclusion>
                         <groupId>com.google.crypto.tink</groupId>
@@ -431,6 +469,18 @@
                 <scope>test</scope>
                 <exclusions>
                     <exclusion>
+                        <groupId>io.confluent.cloud</groupId>
+                        <artifactId>events-schema</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.confluent.rm</groupId>
+                        <artifactId>rm-core-schemas</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.confluent.rri</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
                         <groupId>org.slf4j</groupId>
                         <artifactId>slf4j-log4j12</artifactId>
                     </exclusion>
@@ -546,13 +596,20 @@
             <dependency>
                 <groupId>io.confluent</groupId>
                 <artifactId>ce-sbk_${kafka.scala.version}</artifactId>
-                <version>${confluent.kafka.version}</version>
+                <version>${ce.kafka.version}</version>
                 <scope>compile</scope>
                 <exclusions>
-                    <!-- Kafka artifacts must be supplied by the Arenadata Kafka distribution. -->
                     <exclusion>
-                        <groupId>org.apache.kafka</groupId>
-                        <artifactId>*</artifactId>
+                        <groupId>io.confluent.cloud</groupId>
+                        <artifactId>events-schema</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.confluent.observability</groupId>
+                        <artifactId>telemetry-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.confluent.observability</groupId>
+                        <artifactId>telemetry-client</artifactId>
                     </exclusion>
                     <!-- FIPS Compliance: Exclude non-FIPS cryptographic libraries -->
                     <exclusion>
@@ -1001,11 +1058,27 @@
             <dependency>
                 <groupId>io.confluent</groupId>
                 <artifactId>broker-plugins</artifactId>
-                <version>${confluent.kafka.version}</version>
+                <version>${ce.kafka.version}</version>
                 <exclusions>
                     <!-- Kafka artifacts must be supplied by the Arenadata Kafka distribution. -->
                     <exclusion>
                         <groupId>org.apache.kafka</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>ch.qos.reload4j</groupId>
+                        <artifactId>reload4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.confluent.cloud</groupId>
+                        <artifactId>events-schema</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.confluent.rm</groupId>
+                        <artifactId>rm-core-schemas</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.confluent.observability</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
                     <exclusion>
@@ -1259,14 +1332,6 @@
                 <artifactId>netty-transport-native-unix-common</artifactId>
                 <version>${netty.version}</version>
             </dependency>
-            <!-- FIPS Compliance: Block BoringSSL by setting scope to provided
-                 This prevents non-FIPS BoringSSL from being included in runtime classpath.
-                 TLS will use BC-FIPS/BC-JSSE instead. -->
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-tcnative-fips-boringssl-static</artifactId>
-                <version>${netty-tcnative-fips-version}</version>
-            </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-tcnative-boringssl-static</artifactId>
@@ -1368,6 +1433,22 @@
                     <artifactId>reload4j</artifactId>
                 </exclusion>
                 <exclusion>
+                    <groupId>io.confluent.cloud</groupId>
+                    <artifactId>events-schema</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.confluent.rm</groupId>
+                    <artifactId>rm-core-schemas</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.confluent.rri</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.confluent.observability</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
                     <groupId>io.confluent.networking</groupId>
                     <artifactId>cc-custom-dns-resolver-java18</artifactId>
                 </exclusion>
@@ -1437,18 +1518,11 @@
                                         <exclude>com.google.crypto.tink:tink-gcpkms</exclude>
                                         <!-- Conscrypt: Uses BoringSSL which is not FIPS validated -->
                                         <exclude>org.conscrypt:conscrypt-openjdk-uber</exclude>
-                                        <!--
-                                            NOTE: Both netty-tcnative variants are allowed at build time:
-                                            - netty-tcnative-boringssl-static (non-FIPS, for standard mode)
-                                            - netty-tcnative-fips-boringssl-static (FIPS compliant)
-                                            Runtime selection is handled by ksql-run-class script based on FIPS_ENABLED env var
-                                        -->
                                     </excludes>
                                     <message>
                                         FIPS-140-3 Compliance Error: Non-FIPS cryptographic libraries detected!
                                         These libraries must be excluded to ensure FIPS compliance.
                                         Use Bouncy Castle FIPS (bc-fips, bctls-fips, bcpkix-fips) instead.
-                                        Note: netty-tcnative variants are controlled at runtime via FIPS_ENABLED env var.
                                     </message>
                                 </bannedDependencies>
                             </rules>
@@ -1691,18 +1765,4 @@
             </build>
         </profile>
     </profiles>
-    <!-- ===========================================================================
-         FIPS Compliance Notes
-         ===========================================================================
-         By default, BOTH netty-tcnative variants are included in the build:
-         - netty-tcnative-boringssl-static (standard, CVE-free)
-         - netty-tcnative-fips-boringssl-static (FIPS 140-3 compliant)
-
-         Runtime selection is controlled by FIPS_ENABLED environment variable
-         in the ksql-run-class startup script.
-
-         Usage:
-           Standard mode: bin/ksql-server-start config/ksql-server.properties
-           FIPS mode:     FIPS_ENABLED=true bin/ksql-server-start config/ksql-server.properties
-         =========================================================================== -->
 </project>

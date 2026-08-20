@@ -303,8 +303,12 @@ public final class TestCasePlanLoader {
 
       final NodeList versionNodeList = pomDoc.getElementsByTagName("version");
       final String versionName = versionNodeList.item(0).getTextContent();
+      final String normalizedVersion = versionName.replaceFirst(
+          "^(\\d+\\.\\d+\\.\\d+)\\.\\d+.*$",
+          "$1"
+      );
 
-      return KsqlVersion.parse(versionName.replaceAll("-SNAPSHOT?", ""));
+      return KsqlVersion.parse(normalizedVersion.replaceAll("-SNAPSHOT?", ""));
     } catch (final Exception e) {
       throw new RuntimeException(e);
     }
